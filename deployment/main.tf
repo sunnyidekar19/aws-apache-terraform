@@ -15,3 +15,11 @@ module "routing" {
   public_subnet_id  = module.vpc.public_subnet_id
   vpc_id            = module.vpc.vpc_id
 }
+
+module "ec2" {
+  source            = "../resources/vm"
+  public_sg_id      = module.routing.public_sg_id
+  public_subnet_id  = module.vpc.public_subnet_id
+  private_sg_id     = module.routing.private_sg_id
+  private_subnet_id = module.vpc.private_subnet_id
+}
