@@ -16,10 +16,27 @@ module "routing" {
   vpc_id            = module.vpc.vpc_id
 }
 
+module "s3_pubkey" {
+  source          = "../resources/s3"
+  public_key_path = "../resources/secrets/test.pub"
+  role            = var.role
+}
+
+module "iam" {
+  source                = "../resources/iam"
+  role                  = "dev"
+  s3_pubkey_bucket_name = module.s3_pubkey.s3_pubkey_bucket_name
+  depends_on            = [module.s3_pubkey]
+}
+
 module "ec2" {
-  source            = "../resources/vm"
-  public_sg_id      = module.routing.public_sg_id
-  public_subnet_id  = module.vpc.public_subnet_id
-  private_sg_id     = module.routing.private_sg_id
-  private_subnet_id = module.vpc.private_subnet_id
+  source                = "../resources/vm"
+  public_sg_id          = module.routing.public_sg_id
+  public_subnet_id      = module.vpc.public_subnet_id
+  private_sg_id         = module.routing.private_sg_id
+  private_subnet_id     = module.vpc.private_subnet_id
+  depends_on            = [module.vpc]
+  role                  = var.role
+  s3_pubkey_bucket_name = module.s3_pubkey.s3_pubkey_bucket_name
+  instance_profile_name = module.iam.instance_profile_name
 }
