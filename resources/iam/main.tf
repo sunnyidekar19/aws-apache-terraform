@@ -74,6 +74,8 @@ resource "aws_iam_role_policy" "webserver" {
       "Action": ["s3:*"],
       "Effect": "Allow",
       "Resource": [
+        "arn:aws:s3:::${var.s3_pubkey_bucket_name}",
+        "arn:aws:s3:::${var.s3_pubkey_bucket_name}/*",
         "arn:aws:s3:::${var.user_s3_bucket}",
         "arn:aws:s3:::${var.user_s3_bucket}/*"
       ]
@@ -96,9 +98,14 @@ resource "aws_iam_role_policy" "webserver_read" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": ["s3:List*"],
+      "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
       "Effect": "Allow",
       "Resource": [
+        "arn:aws:s3:::${var.s3_pubkey_bucket_name}",
+        "arn:aws:s3:::${var.s3_pubkey_bucket_name}/*",
         "arn:aws:s3:::${var.user_s3_bucket}",
         "arn:aws:s3:::${var.user_s3_bucket}/*"
       ]
