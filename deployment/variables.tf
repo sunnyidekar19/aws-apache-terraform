@@ -1,6 +1,6 @@
 variable "role" {
-  type    = string
-  default = "dev"
+  type        = string
+  description = "The role for the user, dev or test"
 }
 
 variable "public_key_path" {

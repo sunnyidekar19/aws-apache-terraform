@@ -1,3 +1,7 @@
+locals {
+  webserver_profile = var.role == "dev" ? var.webserver_profile_name : var.webserver_read_profile_name
+}
+
 data "aws_ami" "main" {
   most_recent = true
 
@@ -48,7 +52,7 @@ resource "aws_instance" "private" {
   subnet_id               = var.private_subnet_id
   security_groups         = [var.private_sg_id]
   key_name                = "ec2"
-  iam_instance_profile    = var.webserver_read_profile_name
+  iam_instance_profile    = local.webserver_profile
   disable_api_termination = false
   ebs_optimized           = false
   user_data               = <<-EOF
