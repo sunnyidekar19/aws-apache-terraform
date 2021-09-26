@@ -27,6 +27,14 @@ variable "s3_pubkey_bucket_name" {
   type = string
 }
 
-variable "instance_profile_name" {
+variable "webserver_profile_name" {
+  type = string
+}
+
+variable "webserver_read_profile_name" {
+  type = string
+}
+
+variable "bastion_instance_profile" {
   type = string
 }

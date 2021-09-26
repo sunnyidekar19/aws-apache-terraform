@@ -26,16 +26,19 @@ module "iam" {
   source                = "../resources/iam"
   s3_pubkey_bucket_name = module.s3_pubkey.s3_pubkey_bucket_name
   depends_on            = [module.s3_pubkey]
+  user_s3_bucket        = module.s3_pubkey.user_s3_bucket
 }
 
 module "ec2" {
-  source                = "../resources/vm"
-  public_sg_id          = module.routing.public_sg_id
-  public_subnet_id      = module.vpc.public_subnet_id
-  private_sg_id         = module.routing.private_sg_id
-  private_subnet_id     = module.vpc.private_subnet_id
-  depends_on            = [module.vpc]
-  role                  = var.role
-  s3_pubkey_bucket_name = module.s3_pubkey.s3_pubkey_bucket_name
-  instance_profile_name = module.iam.instance_profile_name
+  source                      = "../resources/vm"
+  public_sg_id                = module.routing.public_sg_id
+  public_subnet_id            = module.vpc.public_subnet_id
+  private_sg_id               = module.routing.private_sg_id
+  private_subnet_id           = module.vpc.private_subnet_id
+  depends_on                  = [module.vpc]
+  role                        = var.role
+  s3_pubkey_bucket_name       = module.s3_pubkey.s3_pubkey_bucket_name
+  bastion_instance_profile    = module.iam.bastion_instance_profile
+  webserver_read_profile_name = module.iam.webserver_read_instance_profile
+  webserver_profile_name      = module.iam.webserver_instance_profile
 }

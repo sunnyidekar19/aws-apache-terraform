@@ -4,5 +4,5 @@ variable "public_key_path" {
 }
 
 variable "role" {
-  type    = string
+  type = string
 }
