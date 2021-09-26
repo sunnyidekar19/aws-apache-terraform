@@ -18,13 +18,12 @@ module "routing" {
 
 module "s3_pubkey" {
   source          = "../resources/s3"
-  public_key_path = "../resources/secrets/test.pub"
+  public_key_path = var.public_key_path
   role            = var.role
 }
 
 module "iam" {
   source                = "../resources/iam"
-  role                  = "dev"
   s3_pubkey_bucket_name = module.s3_pubkey.s3_pubkey_bucket_name
   depends_on            = [module.s3_pubkey]
 }
