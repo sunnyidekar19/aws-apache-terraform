@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "" # Enter name of an existing s3 bucket to store terraform state
+    key    = "apache/terraform.tfstate"
+    region = "" # AWS region for the s3 bucket
+  }
+}
+
 provider "aws" {
   default_tags {
     tags = {
