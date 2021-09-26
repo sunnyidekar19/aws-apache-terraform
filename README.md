@@ -10,6 +10,8 @@
 # Introduction <a name="introduction"/>
 This repo contains a set of Terraform modules for deployment and configuration of a Web application deployed on AWS.
 The application consists of an Apache server created in a private subnet and a Bastion host used for accessing the webserver.
+It will also create a user on the ec2 server, the user is created depending on the role specified. `dev` user will be created if dev role is provided
+and `test` user for test role.
 
 # Terraform Layout <a name="terraform_layout"/>
 
@@ -57,9 +59,10 @@ And the key will also be encrypted using server side encryption(SSE:KMS)
   
 
 ## Inputs <a name="inputs"/>
+The following are the mandatory fields, set the values in `terraform.auto.tfvars` and `main.tf` explained in usage below.
 
 | Name | Description | Example | 
- |------|-------------|:----:|
+|------|-------------|:----:|
 | role | The role of the user | "test" |
 | aws\_region | AWS region for deploying all resources | "eu-west-1" |
 | project | Name of the project | "test-project" |
@@ -72,12 +75,13 @@ And the key will also be encrypted using server side encryption(SSE:KMS)
 ### Usage <a name="usage"/>
 
 1. Clone the git repo and navigate to deployment directory
+
 ```bash
 $ https://github.com/sunnyidekar19/aws-apache-terraform.git
 $ cd aws-apache-terraform/deployment
 ```
 
-1. Edit `main.tf` to add the remote backend s3 config, please refer to the example below
+2. Edit `main.tf` to add the remote backend s3 config, please refer to the example below
 ```hcl
 terraform {
   backend "s3" {
@@ -88,7 +92,7 @@ terraform {
 }
 ```
 
-1. Edit `terraform.auto.tfvars` and add values for each variable, example values are shown below
+3. Edit `terraform.auto.tfvars` and add values for each variable, example values are shown below
 ```hcl
 role            = "test" # Name of user role, example: dev or test
 aws_region      = "eu-west-1" # Name of aws region, example: eu-west-1
@@ -98,17 +102,17 @@ public_key_path = "/home/user/.ssh/test.pub" # file path for user's public key
 aws_keypair     = "ec2" # name of existing aws ec2 keypair
 ```
 
-1. Run terraform init
+4. Run terraform init
 ```bash
 $ terraform init
 ```
 
-1. Run terraform plan (optional)
+5. Run terraform plan (optional)
 ```bash
 $ terraform plan
 ```
 
-1. Run terraform apply
+6. Run terraform apply
 ```bash
 $ terraform apply -auto-approve
 ```
@@ -122,7 +126,7 @@ s3_user_bucket = "current-pika-testproj"
 webserver_address = "10.0.20.74"
 ```
 
-1. Finally, to delete all resources run terraform destroy
+7. Finally, to delete all resources run terraform destroy
 ```bash
 $ terraform destroy -auto-approve
 ```
