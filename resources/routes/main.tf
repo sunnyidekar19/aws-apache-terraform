@@ -1,8 +1,5 @@
 resource "aws_route_table" "public" {
   vpc_id = var.vpc_id
-  tags = {
-    Name = "public-rt-19"
-  }
 }
 
 resource "aws_route" "public" {
@@ -18,9 +15,6 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_route_table" "private" {
   vpc_id = var.vpc_id
-  tags = {
-    Name = "private-rt-19"
-  }
 }
 
 resource "aws_route" "private" {
@@ -35,7 +29,7 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_security_group" "public" {
-  name   = "public-sg"
+  name   = "public-sg-bastion"
   vpc_id = var.vpc_id
 
   ingress {
@@ -60,7 +54,7 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_security_group" "private" {
-  name   = "private"
+  name   = "private-sg-webserver"
   vpc_id = var.vpc_id
 
   ingress {

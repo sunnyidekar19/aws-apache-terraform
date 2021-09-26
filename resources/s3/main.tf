@@ -28,5 +28,5 @@ resource "aws_s3_bucket_object" "main" {
 }
 
 resource "aws_s3_bucket" "user" {
-  bucket = "${random_pet.main.id}-test"
+  bucket = "${random_pet.main.id}-${var.project}"
 }

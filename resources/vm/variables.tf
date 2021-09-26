@@ -38,3 +38,11 @@ variable "webserver_read_profile_name" {
 variable "bastion_instance_profile" {
   type = string
 }
+
+variable "aws_keypair" {
+  type = string
+}
+
+variable "project" {
+  type = string
+}

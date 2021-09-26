@@ -7,9 +7,9 @@ output "webserver_address" {
 }
 
 output "s3_pubkey_bucket" {
-  value = module.s3_pubkey.s3_pubkey_bucket_name
+  value = module.s3.s3_pubkey_bucket_name
 }
 
 output "s3_user_bucket" {
-  value = module.s3_pubkey.user_s3_bucket
+  value = module.s3.user_s3_bucket
 }
